@@ -10,4 +10,6 @@ public struct NetworkInputData : INetworkInput
     public NetworkBool isRightPressed;
     public NetworkBool isForwardPressed;
     public NetworkBool isBackPressed;
+
+    public NetworkBool isSpacePressed;
 }
