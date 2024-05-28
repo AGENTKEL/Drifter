@@ -4,6 +4,7 @@ using UnityEngine;
 using Fusion;
 using TMPro;
 using Fusion.Addons.Physics;
+using UnityEngine.SceneManagement;
 
 public class CarController : NetworkBehaviour
 {
@@ -29,6 +30,8 @@ public class CarController : NetworkBehaviour
 
     [SerializeField] private TextMeshProUGUI driftPointsText; // UI Text to display drift points
     [SerializeField] private TextMeshProUGUI totalPointsText; // UI Text to display total points
+    [SerializeField] private TextMeshProUGUI driftPointMoneyText;
+    [SerializeField] private GameObject resultsMenu;
 
     private float currentDriftPoints = 0;
     private float totalPoints = 0;
@@ -36,18 +39,10 @@ public class CarController : NetworkBehaviour
     private bool isDrifting = false;
 
 
+
     private void Start() 
     {
-        _rb = GetComponent<NetworkRigidbody3D>();
 
-        for (int i = 0; i < _wheels.Length; i++)
-        {
-            _wheels[i].originalStiffness = _wheels[i].wheelCollider.forwardFriction.stiffness;
-            _wheels[i].originalExtremumSlip = _wheels[i].wheelCollider.forwardFriction.extremumSlip;
-        }
-        
-        driftPointsText.text = "";
-        totalPointsText.text = $"Score: {totalPoints:F1}";
 
     }
     
@@ -66,6 +61,20 @@ public class CarController : NetworkBehaviour
         }
 
 
+    }
+
+    public override void Spawned()
+    {
+        _rb = GetComponent<NetworkRigidbody3D>();
+
+        for (int i = 0; i < _wheels.Length; i++)
+        {
+            _wheels[i].originalStiffness = _wheels[i].wheelCollider.forwardFriction.stiffness;
+            _wheels[i].originalExtremumSlip = _wheels[i].wheelCollider.forwardFriction.extremumSlip;
+        }
+        
+        driftPointsText.text = "";
+        totalPointsText.text = $"Score: {totalPoints:F1}";
     }
 
     public override void FixedUpdateNetwork()
@@ -95,7 +104,7 @@ public class CarController : NetworkBehaviour
             float slipAngle = Vector3.Angle(transform.forward, _rb.Rigidbody.velocity - transform.forward);
 
             if (slipAngle < 120)
-                steeringAngle += Vector3.SignedAngle(transform.forward, _rb.Rigidbody.velocity, Vector3.up);
+                steeringAngle += Vector3.SignedAngle(transform.forward, _rb.Rigidbody.velocity, Vector3.up) / 2;
 
             steeringAngle = Mathf.Clamp(steeringAngle, -wheelAngle, wheelAngle);    
 
@@ -153,6 +162,23 @@ public class CarController : NetworkBehaviour
         }
     }
 
+    public void ConvertDriftPointsToMoney()
+    {
+        resultsMenu.SetActive(true);
+        int money = Mathf.FloorToInt(totalPoints / 10);
+        GameManager.instance._money += money;
+        driftPointMoneyText.text = $"Drift points ({totalPoints}) = Money ({money})";
+    }
+
+    public void ExitToMainMenu()
+    {
+        if (Object.HasInputAuthority)
+        {
+            Runner.Despawn(Object);
+            SceneManager.LoadScene("ExampleScene");
+        }
+    }
+
     public NetworkInputData GetNetworkInput()
     {
         NetworkInputData networkInputData = new NetworkInputData();
@@ -186,7 +212,8 @@ public class CarController : NetworkBehaviour
             }
         }
 
-        if (isDrifting)
+
+        if (isDrifting && _speed > 5)
         {
             if (!wasDrifting)
             {
@@ -194,18 +221,36 @@ public class CarController : NetworkBehaviour
             }
 
             float driftDuration = Time.time - driftStartTime;
+            float pointsMultiplier = 1f;
+
+            if (_speed > 5 && _speed <= 20)
+            {
+                pointsMultiplier = 1f;
+            }
+            else if (_speed > 20 && _speed <= 40)
+            {
+                pointsMultiplier = 1.5f;
+            }
+            else if (_speed > 40 && _speed <= 60)
+            {
+                pointsMultiplier = 2f;
+            }
+            else if (_speed > 60 && _speed <= 80)
+            {
+                pointsMultiplier = 2.5f;
+            }
 
             if (driftDuration < 1f)
             {
-                currentDriftPoints += 100 * Time.deltaTime;
+                currentDriftPoints += 100 * pointsMultiplier * Time.deltaTime;
             }
             else if (driftDuration < 2f)
             {
-                currentDriftPoints += 250 * Time.deltaTime;
+                currentDriftPoints += 250 * pointsMultiplier * Time.deltaTime;
             }
             else
             {
-                currentDriftPoints += 500 * Time.deltaTime;
+                currentDriftPoints += 500 * pointsMultiplier * Time.deltaTime;
             }
 
             driftPointsText.text = $"{Mathf.FloorToInt(currentDriftPoints)}";

@@ -5,10 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/OutdoorsScene.unity
-    guid: 8124e5870f4fd4c779e7a5f994e84ad1
   - enabled: 1
-    path: Assets/CartoonTracksPack1/Track1/Demo Scenes/complete_track_demo.unity
+    path: Assets/Scenes/ExampleScene.unity
+    guid: 26411d937a2ad2d42ba12b6d41011915
+  - enabled: 1
+    path: Assets/Scenes/complete_track_demo.unity
     guid: 83760dd98fe89364daec0c8817772284
+  - enabled: 0
+    path: Assets/Scenes/Level2.unity
+    guid: 7f2c3afb39183414da9b43fdf9cca9e6
   m_configObjects: {}
