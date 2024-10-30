@@ -34,7 +34,7 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
     [SerializeField] private List<Material> greenMaterials;
     [SerializeField] private List<Material> redMaterials;
     [SerializeField] private List<Material> yellowMaterials;
-    private Dictionary<int, List<Material>> _colorMaterials;
+    [SerializeField] private Dictionary<int, List<Material>> _colorMaterials;
     
 
     // Start is called before the first frame update
@@ -47,26 +47,27 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
     public override void Spawned()
     {
         _changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
-
+        
+        
+        // Initialize color materials dictionary
+        _colorMaterials = new Dictionary<int, List<Material>>()
+        {
+            { 0, blueMaterials },
+            { 1, greenMaterials },
+            { 2, redMaterials },
+            { 3, yellowMaterials }
+        };
 
         if (Object.HasInputAuthority)
         {
             Local = this;
             
-            // Initialize color materials dictionary
-            _colorMaterials = new Dictionary<int, List<Material>>()
-            {
-                { 0, blueMaterials },
-                { 1, greenMaterials },
-                { 2, redMaterials },
-                { 3, yellowMaterials }
-            };
 
             Utils.SetRenderLayerInChildren(playerWorldSpaceCanvas.transform, LayerMask.NameToLayer("LocalPlayerModel"));
 
             Camera.main.gameObject.SetActive(false);
-
             TriggerRPC();
+            
             Debug.Log("Spawned local player");
         }
         else
@@ -78,10 +79,9 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
 
             AudioListener audioListener = GetComponentInChildren<AudioListener>();
             audioListener.enabled = false;
-
             Debug.Log("Spawned remote player");
         }
-
+        
         transform.name = $"P_{Object.Id}";
     }
 
@@ -113,6 +113,7 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
         RPC_SetCarIndex(GameManager.instance.playerCarIndex);
         RPC_SetColor(GameManager.instance.playerCarColorIndex);
     }
+    
 
     
 
@@ -125,7 +126,11 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
     public void OnCarIndexChanged()
     {
 
-        if (camaroModel == null || mustangModel == null) return;
+        if (camaroModel == null || mustangModel == null)
+        {
+            Debug.LogError("Models are null");
+            return;
+        }
         // Ensure both models are correctly activated or deactivated
         if (_carIndex == 0)
         {
@@ -137,9 +142,7 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
             camaroModel.SetActive(false);
             mustangModel.SetActive(true);
         }
-
-        // Apply the color to the active car model
-        ApplyColor();
+        
 
     }
 
@@ -152,7 +155,11 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
 
     public void ApplyColor()
     {
-        if (_colorMaterials == null || _colorMaterials.Count == 0) return;
+        if (_colorMaterials == null || _colorMaterials.Count == 0)
+        {
+            Debug.LogError("Colors are null");
+            return;
+        }
         if (_colorMaterials.TryGetValue(_colorIndex, out var materials))
         {
             if (_carIndex == 0 && camaroRenderer != null)

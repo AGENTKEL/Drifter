@@ -23,8 +23,6 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-        playerCarIndex = PlayerPrefs.GetInt("Cars");
-        playerCarColorIndex = PlayerPrefs.GetInt("CarColor");
 
         InitializeMoney();
 

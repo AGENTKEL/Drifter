@@ -28,8 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 373549783204071265}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.062137432, y: -0.000000017173132, z: 0.0000000010691601,
-    w: 0.9980676}
+  m_LocalRotation: {x: 0.062137432, y: -0.00000001717313, z: 0.0000000010691603, w: 0.9980676}
   m_LocalPosition: {x: 0, y: 2, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5263,8 +5262,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2250633732790267924}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.062137432, y: -0.000000017173132, z: 0.0000000010691601,
-    w: 0.9980676}
+  m_LocalRotation: {x: 0.062137432, y: -0.00000001717313, z: 0.0000000010691603, w: 0.9980676}
   m_LocalPosition: {x: 0, y: 2, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -15893,6 +15891,17 @@ MonoBehaviour:
   playerCanvas: {fileID: 6065479983678354755}
   playerWorldSpaceCanvas: {fileID: 4656960859780541583}
   playerNickName: {fileID: 2442170312068854376}
+  driftPointMoneyText: {fileID: 0}
+  __nickName:
+    _length: 0
+    _data:
+      Data: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  __carIndex: 0
+  __colorIndex: 0
+  camaroModel: {fileID: 0}
+  mustangModel: {fileID: 0}
+  camaroRenderer: {fileID: 0}
+  mustangRenderer: {fileID: 0}
   blueMaterials:
   - {fileID: 2100000, guid: d2344366b80fe3d4f886ec412e0174fa, type: 2}
   - {fileID: 2100000, guid: df2af3ef3b4ba8745bba465d24c2d5de, type: 2}
@@ -15905,7 +15914,6 @@ MonoBehaviour:
   yellowMaterials:
   - {fileID: 2100000, guid: 07f44fe3e9c462146a7769b976c50ec4, type: 2}
   - {fileID: 2100000, guid: 932723849435d254cad033fd1896c0a8, type: 2}
-  playerRenderer: {fileID: 9112040872189031242}
 --- !u!114 &4987368843506151481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16006,6 +16014,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   driftPointsText: {fileID: 3074685223917727153}
   totalPointsText: {fileID: 5528533515990746988}
+  driftPointMoneyText: {fileID: 0}
+  resultsMenu: {fileID: 0}
 --- !u!114 &3839774416235721423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16179,8 +16189,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 2000
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d5e2986e4fc1349488c31ee3cba81e18, type: 2}
+  m_sharedMaterial: {fileID: -3641652835944638822, guid: d5e2986e4fc1349488c31ee3cba81e18,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -16240,7 +16251,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -123.28498, y: -12.296116, z: -162.26807, w: 0}
+  m_margin: {x: -123.28498, y: -12.296116, z: -120.53711, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -21317,8 +21328,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Score:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d5e2986e4fc1349488c31ee3cba81e18, type: 2}
+  m_sharedMaterial: {fileID: -3641652835944638822, guid: d5e2986e4fc1349488c31ee3cba81e18,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
